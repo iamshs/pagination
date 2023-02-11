@@ -19,7 +19,14 @@ function App() {
     })
   },[])
 
-  //getCurrentPage
+  //getCurrentPost
+
+  const indexOfLastPost = currentPage * postPerPage
+  const indexOfFirstPost = indexOfLastPost - postPerPage;
+  const currentPost = posts.slice(indexOfFirstPost,indexOfLastPost)
+
+
+
 
 
 
@@ -28,7 +35,7 @@ function App() {
   <h1 style={{textAlign : "center"}}>Pagination</h1>
     <div style = {{ display:"grid" , gridTemplateColumns:"repeat(3 , 1fr) " , padding:"10px" }}>
      {
-      posts.map(post => <Post key={post.it} post={post} loading={loading} />)
+      posts.map(post => <Post key={post.id} post={currentPost} loading={loading} />)
      }
     </div>
   </>
