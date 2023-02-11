@@ -3,12 +3,13 @@ import './App.css';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import Post from './component/Post';
+import Pagination from './component/Pagination';
 
 function App() {
   const [posts , setPosts] = useState([])
   const [loading, setLoading] = useState(true)
-  const [currentPage , setCurrentPage] = useState(1)
-  const [postPerPage , setPostPerPage] = useState(10)
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(10);
 
   useEffect(()=>{
     fetch("https://jsonplaceholder.typicode.com/posts")
@@ -21,11 +22,14 @@ function App() {
 
   //getCurrentPost
 
-  const indexOfLastPost = currentPage * postPerPage
-  const indexOfFirstPost = indexOfLastPost - postPerPage;
-  const currentPost = posts.slice(indexOfFirstPost,indexOfLastPost)
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
 
 
+//change page
+
+const paginate = (page) => setCurrentPage(page)
 
 
 
@@ -33,10 +37,10 @@ function App() {
   return (
   <>
   <h1 style={{textAlign : "center"}}>Pagination</h1>
-    <div style = {{ display:"grid" , gridTemplateColumns:"repeat(3 , 1fr) " , padding:"10px" }}>
-     {
-      posts.map(post => <Post key={post.id} post={currentPost} loading={loading} />)
-     }
+    <div >
+     <Post  posts={currentPosts} loading={loading} />
+     <Pagination postsPerPage={postsPerPage} totalPost={posts.length} paginate={paginate} />
+     
     </div>
   </>
   );
